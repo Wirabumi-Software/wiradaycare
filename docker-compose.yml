@@ -14,16 +14,20 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
+    container_name: wiradaycare-pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@wiradaycare.local
+      PGADMIN_DEFAULT_EMAIL: hi@wirabumisoftware.com
       PGADMIN_DEFAULT_PASSWORD: secret
     ports:
       - "5050:80"
+    depends_on:
+      - db
     networks:
       - wiradaycare-net
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
+    container_name: wiradaycare-keycloak
     command: start-dev
     environment:
       KEYCLOAK_ADMIN: admin
@@ -33,7 +37,21 @@ services:
     networks:
       - wiradaycare-net
 
+  app:
+    build: .
+    container_name: wiradaycare-app
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+      - keycloak
+    networks:
+      - wiradaycare-net
+
 volumes:
   db_data:
+
 networks:
   wiradaycare-net:
