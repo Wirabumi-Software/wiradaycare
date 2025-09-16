@@ -9,26 +9,29 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    // Public endpoints (login, actuator)
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain publicEndpoints(HttpSecurity http) throws Exception {
+        http
+            .securityMatcher("/auth/login", "/actuator/health")
+            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
+            .csrf(csrf -> csrf.disable());
+        return http.build();
+    }
+
+    // All other endpoints: require JWT
+    @Bean
+    public SecurityFilterChain apiEndpoints(HttpSecurity http) throws Exception {
         JwtAuthenticationConverter jwtAuthConverter = new JwtAuthenticationConverter();
-        // Later we can plug in a converter that maps Keycloak roles → Spring roles
 
         http
             .authorizeHttpRequests(authz -> authz
-                // actuator health always public
-                .requestMatchers("/actuator/health").permitAll()
-                .requestMatchers("/auth/login").permitAll()
-                // role-based API security
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/caregiver/**").hasRole("CAREGIVER")
                 .requestMatchers("/api/parent/**").hasRole("PARENT")
-                // everything else must be authenticated
                 .anyRequest().authenticated()
             )
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter))
-            );
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)));
 
         return http.build();
     }
