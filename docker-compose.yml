@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    container_name: wiradaycare-db
+    environment:
+      POSTGRES_USER: wiradaycare
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: wiradaycare
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - wiradaycare-net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@wiradaycare.local
+      PGADMIN_DEFAULT_PASSWORD: secret
+    ports:
+      - "5050:80"
+    networks:
+      - wiradaycare-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    networks:
+      - wiradaycare-net
+
+volumes:
+  db_data:
+networks:
+  wiradaycare-net:
