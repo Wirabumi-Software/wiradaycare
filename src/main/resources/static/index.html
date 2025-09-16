@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WiraDayCare Login</title>
+</head>
+<body>
+  <h1>WiraDayCare Login</h1>
+  
+  <form id="loginForm">
+    <label>
+      Username:
+      <input type="text" id="username" value="alice">
+    </label>
+    <br />
+    <label>
+      Password:
+      <input type="password" id="password" value="alice123">
+    </label>
+    <br />
+    <button type="submit">Login</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        // Call /auth/login
+        const res = await fetch(`/auth/login?username=${username}&password=${password}`, {
+          method: "POST"
+        });
+        if (!res.ok) {
+          document.getElementById("result").innerText = "Login failed!";
+          return;
+        }
+        const data = await res.json();
+        const token = data.access_token;
+
+        // Call /hello with token
+        const helloRes = await fetch("/hello", {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        const helloText = await helloRes.text();
+
+        document.getElementById("result").innerText = "Hello response: " + helloText;
+      } catch (err) {
+        console.error(err);
+        document.getElementById("result").innerText = "Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
