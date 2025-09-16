@@ -35,7 +35,7 @@ public class AuthController {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
         ResponseEntity<Map> response = restTemplate.postForEntity(tokenUrl, request, Map.class);
-
-        return ResponseEntity.ok(response.getBody());
+        Map<String, Object> body = (Map<String, Object>) response.getBody();
+        return ResponseEntity.ok(body);
     }
 }

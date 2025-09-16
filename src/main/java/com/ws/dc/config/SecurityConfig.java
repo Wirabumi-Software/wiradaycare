@@ -18,6 +18,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 // actuator health always public
                 .requestMatchers("/actuator/health").permitAll()
+                .requestMatchers("/auth/login").permitAll()
                 // role-based API security
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/caregiver/**").hasRole("CAREGIVER")
