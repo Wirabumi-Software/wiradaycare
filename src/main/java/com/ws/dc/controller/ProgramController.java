@@ -9,9 +9,11 @@ import com.ws.dc.domain.child.ClassRoomRepository;
 import com.ws.dc.domain.child.Enrollment;
 import com.ws.dc.domain.child.EnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping("/programs")
 public class ProgramController {
@@ -24,11 +26,13 @@ public class ProgramController {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping
     public List<Program> getAllPrograms() {
         return programRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping("/{id}")
     public Program getProgram(@PathVariable Long id) {
         return programRepository.findById(id).orElse(null);

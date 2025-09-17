@@ -5,9 +5,11 @@ import com.ws.dc.domain.child.ClassRoomRepository;
 import com.ws.dc.domain.child.Program;
 import com.ws.dc.domain.child.ProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping("/classrooms")
 public class ClassRoomController {
@@ -16,11 +18,13 @@ public class ClassRoomController {
     @Autowired
     private ProgramRepository programRepository;
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping
     public List<ClassRoom> getAllClassRooms() {
         return classRoomRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping("/{id}")
     public ClassRoom getClassRoom(@PathVariable Long id) {
         return classRoomRepository.findById(id).orElse(null);

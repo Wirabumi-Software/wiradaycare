@@ -5,20 +5,24 @@ import com.ws.dc.domain.child.ChildRepository;
 import com.ws.dc.domain.child.Enrollment;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping("/children")
 public class ChildController {
     @Autowired
     private ChildRepository childRepository;
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping
     public List<Child> getAllChildren() {
         return childRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping("/{id}")
     public Child getChild(@PathVariable Long id) {
         return childRepository.findById(id).orElse(null);
@@ -41,6 +45,7 @@ public class ChildController {
     }
 
     // Get active enrollment for a child
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping("/{id}/active-enrollment")
     public Enrollment getActiveEnrollment(@PathVariable Long id) {
         Child child = childRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Child not found"));
@@ -48,6 +53,7 @@ public class ChildController {
     }
 
     // Get all enrollments (history) for a child
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping("/{id}/enrollments")
     public List<Enrollment> getEnrollmentHistory(@PathVariable Long id) {
         Child child = childRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Child not found"));
