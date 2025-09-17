@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -34,8 +33,7 @@ public class AuthController {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
-        ResponseEntity<Map> response = restTemplate.postForEntity(tokenUrl, request, Map.class);
-        Map<String, Object> body = (Map<String, Object>) response.getBody();
-        return ResponseEntity.ok(body);
+        ResponseEntity<TokenResponse> response = restTemplate.postForEntity(tokenUrl, request, TokenResponse.class);
+        return ResponseEntity.ok(response.getBody());
     }
 }
