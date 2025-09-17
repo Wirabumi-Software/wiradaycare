@@ -1,14 +1,158 @@
 {
 	"info": {
-		"_postman_id": "a938b777-0413-4724-8415-543df9150604",
+		"_postman_id": "e905e444-801c-4434-a55e-4c00181cc014",
 		"name": "WiraDayCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "6981812"
+		"_exporter_id": "42639373"
 	},
 	"item": [
 		{
+			"name": "Children",
+			"item": []
+		},
+		{
+			"name": "Class Room",
+			"item": [
+				{
+					"name": "Create class room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Rainbow Room\",\r\n  \"capacity\": 20,\r\n  \"program\": {\r\n    \"id\": 3\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{app host}}/classrooms",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"classrooms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Program",
+			"item": [
+				{
+					"name": "Create Program",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Preschool\",\r\n    \"description\": \"For children ages 3-5\",\r\n    \"minAgeMonths\": 36,\r\n    \"maxAgeMonths\": 60\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{app host}}/programs",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"programs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Child",
+			"item": [
+				{
+					"name": "Enroll",
+					"item": []
+				},
+				{
+					"name": "Enroll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{app host}}/programs/3/enroll?childId=1&classRoomId=7",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"programs",
+								"3",
+								"enroll"
+							],
+							"query": [
+								{
+									"key": "childId",
+									"value": "1"
+								},
+								{
+									"key": "classRoomId",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Hello",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [
 					{
@@ -18,12 +162,10 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8081/hello",
-					"protocol": "http",
+					"raw": "{{app host}}/hello",
 					"host": [
-						"localhost"
+						"{{app host}}"
 					],
-					"port": "8081",
 					"path": [
 						"hello"
 					]
@@ -32,7 +174,7 @@
 			"response": []
 		},
 		{
-			"name": "get token",
+			"name": "get token admin",
 			"event": [
 				{
 					"listen": "test",
@@ -59,12 +201,10 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8081/auth/login?username=alice&password=alice123",
-					"protocol": "http",
+					"raw": "{{app host}}/auth/login?username=alice&password=alice123",
 					"host": [
-						"localhost"
+						"{{app host}}"
 					],
-					"port": "8081",
 					"path": [
 						"auth",
 						"login"
