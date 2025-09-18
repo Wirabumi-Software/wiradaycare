@@ -1,5 +1,25 @@
 # WiraDayCare
 
+## Accessing Actuator Health Endpoint
+
+To check the application's health status, open your browser or use a tool like curl to access:
+
+```
+http://localhost:8081/actuator/health
+```
+
+This endpoint returns a JSON response with the application's health information.
+
+## Accessing HTML UI
+
+Open your browser and go to:
+
+```
+http://localhost:8081/
+```
+
+This will load the application's HTML user interface.
+
 ## Accessing Keycloak
 
 1. Open your browser and go to:
