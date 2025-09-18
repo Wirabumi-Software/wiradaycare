@@ -1,6 +1,8 @@
 
 package com.ws.dc.domain.child;
 import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -14,9 +16,9 @@ public class Enrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "child_id")
-    @JsonManagedReference
+    @ManyToOne
+    @JsonBackReference("child-enrollments")
     private Child child;
 
     @ManyToOne

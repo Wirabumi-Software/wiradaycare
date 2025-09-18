@@ -3,6 +3,7 @@ package com.ws.dc.domain.child;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.time.LocalDate;
 import lombok.Getter;
@@ -29,7 +30,7 @@ public class Child {
     private com.ws.dc.domain.user.User parent;
 
     @OneToMany(mappedBy = "child")
-    @JsonBackReference
+    @JsonManagedReference("child-enrollments")
     private java.util.List<Enrollment> enrollments;
 
     public int getAgeInMonths() {
