@@ -143,6 +143,36 @@ docker-compose stop
 docker-compose stop
 ```
 
+### Recompiling and Redeploying (Development Workflow)
+
+When you make code changes and need to redeploy only the application:
+
+```bash
+# 1. Stop only the application container (keep DB and Keycloak running)
+docker stop wiradaycare-app
+
+# 2. Rebuild the Maven project
+mvn clean compile install -DskipTests
+
+# 3. Rebuild and start the application container
+docker-compose up --build app
+```
+
+**Alternative: Full restart with all services**
+```bash
+# Stop all services
+docker-compose stop
+
+# Rebuild and restart all services
+docker-compose up --build
+```
+
+**Quick redeploy for app-only changes:**
+```bash
+# One-liner for fast development cycle
+docker stop wiradaycare-app && mvn clean compile install -DskipTests && docker-compose up --build app
+```
+
 ### Complete Removal (Use with caution)
 ```bash
 # Stop and remove all containers (but keep volumes/data)
