@@ -44,7 +44,6 @@ public class ChildController {
         childRepository.deleteById(id);
     }
 
-    // Get active enrollment for a child
     @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping("/{id}/active-enrollment")
     public Enrollment getActiveEnrollment(@PathVariable Long id) {
@@ -52,7 +51,6 @@ public class ChildController {
         return child.getActiveEnrollment();
     }
 
-    // Get all enrollments (history) for a child
     @PreAuthorize("hasRole('ADMIN') or hasRole('CAREGIVER')")
     @GetMapping("/{id}/enrollments")
     public List<Enrollment> getEnrollmentHistory(@PathVariable Long id) {

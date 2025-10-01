@@ -54,8 +54,7 @@ public class ProgramController {
         programRepository.deleteById(id);
     }
 
-    // Domain action: enroll a child in a program/classroom
-     @PostMapping("/{programId}/enroll")
+    @PostMapping("/{programId}/enroll")
     public Enrollment enrollChild(
             @PathVariable Long programId,
             @RequestParam Long childId,
