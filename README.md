@@ -86,8 +86,29 @@ The setup is complete when you see the Spring Boot banner and "Started WiraDayCa
 ### 5. Access the Application
 
 - **WiraDayCare API**: http://localhost:8081
+- **Swagger API Documentation**: http://localhost:8081/swagger-ui/index.html
 - **Keycloak Admin Console**: http://localhost:8080 (admin/admin)
 - **Health Check**: http://localhost:8081/actuator/health
+
+## API Documentation
+
+### Swagger UI
+Access the interactive API documentation at:
+```
+http://localhost:8081/swagger-ui/index.html
+```
+
+The Swagger UI provides:
+- Complete API endpoint documentation
+- Interactive testing interface
+- Request/response examples
+- JWT authentication support
+
+### Authentication in Swagger
+1. First, obtain a JWT token by calling the `/auth/login` endpoint
+2. Click the "Authorize" button in Swagger UI
+3. Enter your JWT token in the format: `Bearer <your-jwt-token>`
+4. Now you can test authenticated endpoints
 
 ## Pre-configured Users
 
