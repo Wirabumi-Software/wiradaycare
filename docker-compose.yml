@@ -11,18 +11,18 @@ services:
     networks:
       - wiradaycare-net
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: wiradaycare-pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: hi@wirabumisoftware.com
-      PGADMIN_DEFAULT_PASSWORD: secret
-    ports:
-      - "5050:80"
-    depends_on:
-      - db
-    networks:
-      - wiradaycare-net
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: wiradaycare-pgadmin
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: hi@wirabumisoftware.com
+  #     PGADMIN_DEFAULT_PASSWORD: secret
+  #   ports:
+  #     - "5050:80"
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - wiradaycare-net
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
