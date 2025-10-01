@@ -1,38 +1,65 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { LoginForm } from './components/auth/LoginForm'
+import { Dashboard } from './pages/Dashboard'
+import { authService } from './services/authService'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">WiraDayCare</h1>
-          <p className="text-gray-600 mt-2">🚀 Hot Reload Test - Updated!</p>
-        </div>
-        
+  useEffect(() => {
+    // Check authentication status on app load
+    setIsAuthenticated(authService.isAuthenticated())
+  }, [])
+
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true)
+  }
+
+  const handleLogout = () => {
+    authService.logout()
+    setIsAuthenticated(false)
+  }
+
+  // Loading state while checking authentication
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <button 
-            onClick={() => setCount((count) => count + 1)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-          <p className="text-sm text-gray-500 mt-4">
-            Click the button to test React state management
-          </p>
-        </div>
-
-        <div className="mt-6 p-4 bg-green-50 rounded">
-          <h2 className="font-semibold text-green-800">Story 1 Complete ✅</h2>
-          <ul className="text-sm text-green-700 mt-2 space-y-1">
-            <li>✓ Vite + React + TypeScript</li>
-            <li>✓ TailwindCSS configured</li>
-            <li>✓ Ready for Docker</li>
-          </ul>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
-    </div>
+    )
+  }
+
+  return (
+    <Router>
+      <Routes>
+        <Route 
+          path="/login" 
+          element={
+            isAuthenticated ? 
+            <Navigate to="/dashboard" replace /> : 
+            <LoginForm onLoginSuccess={handleLoginSuccess} />
+          } 
+        />
+        <Route 
+          path="/dashboard" 
+          element={
+            isAuthenticated ? 
+            <Dashboard onLogout={handleLogout} /> : 
+            <Navigate to="/login" replace />
+          } 
+        />
+        <Route 
+          path="/" 
+          element={
+            <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />
+          } 
+        />
+      </Routes>
+    </Router>
   )
 }
 
