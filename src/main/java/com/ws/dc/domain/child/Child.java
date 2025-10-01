@@ -38,16 +38,33 @@ public class Child {
         return (now.getYear() - dateOfBirth.getYear()) * 12 + (now.getMonthValue() - dateOfBirth.getMonthValue());
     }
 
-    void addEnrollment(Enrollment enrollment) {
-        if (enrollments == null) enrollments = new java.util.ArrayList<>();
-        
-        if (getActiveEnrollment() != null) throw new IllegalStateException("Child already has an active enrollment");
-            enrollments.add(enrollment);
-    }
-
     @JsonIgnore
     public Enrollment getActiveEnrollment() {
         if (enrollments == null) return null;
         return enrollments.stream().filter(Enrollment::isActive).findFirst().orElse(null);
+    }
+
+    public EnrollmentResult enrollInProgram(Program program, ClassRoom classRoom) {
+        Enrollment enrollment = Enrollment.createEnrollment(this, program, classRoom);
+        
+        if (enrollments == null) enrollments = new java.util.ArrayList<>();
+        enrollments.add(enrollment);
+        classRoom.addChild(this);
+        
+        // Return all affected entities that need persistence
+        return new EnrollmentResult(enrollment, this, classRoom);
+    }
+
+    public EnrollmentResult withdrawFromCurrentEnrollment() {
+        Enrollment activeEnrollment = getActiveEnrollment();
+        if (activeEnrollment == null) {
+            throw new IllegalStateException("Child has no active enrollment to withdraw from");
+        }
+        
+        ClassRoom classRoom = activeEnrollment.getClassRoom();
+        activeEnrollment.withdraw();
+        classRoom.removeChild(this);
+        
+        return new EnrollmentResult(activeEnrollment, this, classRoom);
     }
 }

@@ -20,6 +20,7 @@ public class ClassRoom {
     private Program program;
 
     @Transient
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private java.util.List<Child> children = new java.util.ArrayList<>();
 
     public boolean isFull() {
@@ -29,5 +30,9 @@ public class ClassRoom {
     void addChild(Child child) {
         if (isFull()) throw new IllegalStateException("Class is full");
         children.add(child);
+    }
+    
+    void removeChild(Child child) {
+        children.remove(child);
     }
 }
