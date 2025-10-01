@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { LoginForm } from './components/auth/LoginForm'
 import { Dashboard } from './pages/Dashboard'
+import { Layout } from './components/layout/Layout'
+import { ChildrenPage } from './pages/admin/ChildrenPage'
+import { ProgramsPage } from './pages/admin/ProgramsPage'
+import { ClassroomsPage } from './pages/admin/ClassroomsPage'
+import { EnrollmentPage } from './pages/admin/EnrollmentPage'
 import { authService } from './services/authService'
 
 function App() {
@@ -48,7 +53,40 @@ function App() {
           path="/dashboard" 
           element={
             isAuthenticated ? 
-            <Dashboard onLogout={handleLogout} /> : 
+            <Layout onLogout={handleLogout}><Dashboard /></Layout> : 
+            <Navigate to="/login" replace />
+          } 
+        />
+        {/* Admin Routes */}
+        <Route 
+          path="/admin/children" 
+          element={
+            isAuthenticated ? 
+            <Layout onLogout={handleLogout}><ChildrenPage /></Layout> : 
+            <Navigate to="/login" replace />
+          } 
+        />
+        <Route 
+          path="/admin/programs" 
+          element={
+            isAuthenticated ? 
+            <Layout onLogout={handleLogout}><ProgramsPage /></Layout> : 
+            <Navigate to="/login" replace />
+          } 
+        />
+        <Route 
+          path="/admin/classrooms" 
+          element={
+            isAuthenticated ? 
+            <Layout onLogout={handleLogout}><ClassroomsPage /></Layout> : 
+            <Navigate to="/login" replace />
+          } 
+        />
+        <Route 
+          path="/admin/enrollment" 
+          element={
+            isAuthenticated ? 
+            <Layout onLogout={handleLogout}><EnrollmentPage /></Layout> : 
             <Navigate to="/login" replace />
           } 
         />
