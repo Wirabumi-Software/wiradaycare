@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { authService } from '../../services/authService';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 interface LayoutProps {
   children: ReactNode;
@@ -48,9 +49,9 @@ export function Layout({ children, onLogout }: LayoutProps) {
   const isActive = (href: string) => location.pathname === href;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Top Navigation */}
-      <nav className="bg-white shadow-sm border-b">
+      <nav className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center space-x-4">
@@ -69,16 +70,17 @@ export function Layout({ children, onLogout }: LayoutProps) {
                   </svg>
                 )}
               </button>
-              <h1 className="text-xl font-semibold text-gray-900">WiraDayCare</h1>
+              <h1 className="text-xl font-semibold text-gray-900 dark:text-white">WiraDayCare</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">Welcome, {user.username}</span>
-              <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+              <ThemeToggle />
+              <span className="text-sm text-gray-700 dark:text-gray-300">Welcome, {user.username}</span>
+              <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
                 {user.roles.join(', ')}
               </span>
               <button
                 onClick={handleLogout}
-                className="text-sm bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded"
+                className="text-sm bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white px-3 py-2 rounded transition-colors"
               >
                 Logout
               </button>
@@ -90,7 +92,7 @@ export function Layout({ children, onLogout }: LayoutProps) {
       <div className="flex">
         {/* Side Navigation */}
         {isSidebarOpen && (
-          <aside className="w-64 bg-white shadow-sm min-h-screen transition-all duration-300">
+          <aside className="w-64 bg-white dark:bg-gray-800 shadow-sm min-h-screen transition-all duration-300">
             <div className="py-4">
               <nav className="space-y-1 px-3">
                 {navigationItems.map((item) => (
@@ -100,8 +102,8 @@ export function Layout({ children, onLogout }: LayoutProps) {
                     className={`
                       flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors
                       ${isActive(item.href)
-                        ? 'bg-blue-100 text-blue-700 border-r-2 border-blue-700'
-                        : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 border-r-2 border-blue-700 dark:border-blue-400'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                       }
                     `}
                   >

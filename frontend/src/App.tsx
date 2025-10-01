@@ -7,6 +7,7 @@ import { ChildrenPage } from './pages/admin/ChildrenPage'
 import { ProgramsPage } from './pages/admin/ProgramsPage'
 import { ClassroomsPage } from './pages/admin/ClassroomsPage'
 import { EnrollmentPage } from './pages/admin/EnrollmentPage'
+import { ThemeProvider } from './contexts/ThemeContext'
 import { authService } from './services/authService'
 
 function App() {
@@ -39,65 +40,67 @@ function App() {
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route 
-          path="/login" 
-          element={
-            isAuthenticated ? 
-            <Navigate to="/dashboard" replace /> : 
-            <LoginForm onLoginSuccess={handleLoginSuccess} />
-          } 
-        />
-        <Route 
-          path="/dashboard" 
-          element={
-            isAuthenticated ? 
-            <Layout onLogout={handleLogout}><Dashboard /></Layout> : 
-            <Navigate to="/login" replace />
-          } 
-        />
-        {/* Admin Routes */}
-        <Route 
-          path="/admin/children" 
-          element={
-            isAuthenticated ? 
-            <Layout onLogout={handleLogout}><ChildrenPage /></Layout> : 
-            <Navigate to="/login" replace />
-          } 
-        />
-        <Route 
-          path="/admin/programs" 
-          element={
-            isAuthenticated ? 
-            <Layout onLogout={handleLogout}><ProgramsPage /></Layout> : 
-            <Navigate to="/login" replace />
-          } 
-        />
-        <Route 
-          path="/admin/classrooms" 
-          element={
-            isAuthenticated ? 
-            <Layout onLogout={handleLogout}><ClassroomsPage /></Layout> : 
-            <Navigate to="/login" replace />
-          } 
-        />
-        <Route 
-          path="/admin/enrollment" 
-          element={
-            isAuthenticated ? 
-            <Layout onLogout={handleLogout}><EnrollmentPage /></Layout> : 
-            <Navigate to="/login" replace />
-          } 
-        />
-        <Route 
-          path="/" 
-          element={
-            <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />
-          } 
-        />
-      </Routes>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <Routes>
+          <Route 
+            path="/login" 
+            element={
+              isAuthenticated ? 
+              <Navigate to="/dashboard" replace /> : 
+              <LoginForm onLoginSuccess={handleLoginSuccess} />
+            } 
+          />
+          <Route 
+            path="/dashboard" 
+            element={
+              isAuthenticated ? 
+              <Layout onLogout={handleLogout}><Dashboard /></Layout> : 
+              <Navigate to="/login" replace />
+            } 
+          />
+          {/* Admin Routes */}
+          <Route 
+            path="/admin/children" 
+            element={
+              isAuthenticated ? 
+              <Layout onLogout={handleLogout}><ChildrenPage /></Layout> : 
+              <Navigate to="/login" replace />
+            } 
+          />
+          <Route 
+            path="/admin/programs" 
+            element={
+              isAuthenticated ? 
+              <Layout onLogout={handleLogout}><ProgramsPage /></Layout> : 
+              <Navigate to="/login" replace />
+            } 
+          />
+          <Route 
+            path="/admin/classrooms" 
+            element={
+              isAuthenticated ? 
+              <Layout onLogout={handleLogout}><ClassroomsPage /></Layout> : 
+              <Navigate to="/login" replace />
+            } 
+          />
+          <Route 
+            path="/admin/enrollment" 
+            element={
+              isAuthenticated ? 
+              <Layout onLogout={handleLogout}><EnrollmentPage /></Layout> : 
+              <Navigate to="/login" replace />
+            } 
+          />
+          <Route 
+            path="/" 
+            element={
+              <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />
+            } 
+          />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   )
 }
 

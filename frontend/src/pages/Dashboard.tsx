@@ -8,9 +8,9 @@ export function Dashboard() {
   }
 
   return (
-    <div className="bg-white overflow-hidden shadow rounded-lg">
+    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
       <div className="px-4 py-5 sm:p-6">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">Dashboard</h2>
+        <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Dashboard</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {user.roles.includes('ADMIN') && (
@@ -62,13 +62,14 @@ export function Dashboard() {
           )}
         </div>
 
-        <div className="mt-8 p-4 bg-green-50 rounded">
-          <h3 className="font-semibold text-green-800">✅ Story 3 Complete - Navigation Working!</h3>
-          <ul className="text-sm text-green-700 mt-2 space-y-1">
-            <li>✓ Layout with Sidebar Navigation</li>
-            <li>✓ Role-based Menu Items ({user.roles.join(', ')})</li>
-            <li>✓ Admin Dashboard Shell</li>
-            <li>✓ Placeholder Pages Ready</li>
+        <div className="mt-8 p-4 bg-green-50 dark:bg-green-900 rounded">
+          <h3 className="font-semibold text-green-800 dark:text-green-300">✅ Dark/Light Theme Complete!</h3>
+          <ul className="text-sm text-green-700 dark:text-green-300 mt-2 space-y-1">
+            <li>✓ Dark/Light/System Theme Toggle</li>
+            <li>✓ Persistent Theme Preferences</li>
+            <li>✓ System Theme Detection</li>
+            <li>✓ Smooth Theme Transitions</li>
+            <li>✓ All Components Dark Mode Ready</li>
           </ul>
         </div>
       </div>
