@@ -1,20 +1,43 @@
 {
 	"info": {
-		"_postman_id": "e905e444-801c-4434-a55e-4c00181cc014",
+		"_postman_id": "82775600-595b-4edd-99ca-555ee0e71341",
 		"name": "WiraDayCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "42639373"
+		"_exporter_id": "6981812"
 	},
 	"item": [
 		{
-			"name": "Children",
-			"item": []
-		},
-		{
-			"name": "Class Room",
+			"name": "User",
 			"item": [
 				{
-					"name": "Create class room",
+					"name": "get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{app host}}/users",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create parent",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -30,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Rainbow Room\",\r\n  \"capacity\": 20,\r\n  \"program\": {\r\n    \"id\": 3\r\n  }\r\n}",
+							"raw": "{\r\n  \"externalId\": \"987fcdeb-51d2-4321-b987-123456789abc\",\r\n  \"name\": \"Jennifer Williams\",\r\n  \"email\": \"jennifer.williams@email.com\",\r\n  \"role\": \"PARENT\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -38,12 +61,80 @@
 							}
 						},
 						"url": {
-							"raw": "{{app host}}/classrooms",
+							"raw": "{{app host}}/users",
 							"host": [
 								"{{app host}}"
 							],
 							"path": [
-								"classrooms"
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Children",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Emma\",\r\n    \"lastName\": \"Johnson\",\r\n    \"dateOfBirth\": \"2020-03-15\",\r\n    \"gender\": \"Female\",\r\n    \"parent\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{app host}}/children",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{app host}}/children",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"children"
 							]
 						}
 					},
@@ -71,7 +162,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Preschool\",\r\n    \"description\": \"For children ages 3-5\",\r\n    \"minAgeMonths\": 36,\r\n    \"maxAgeMonths\": 60\r\n}",
+							"raw": "{\r\n    \"name\": \"Preschool\",\r\n    \"description\": \"For children ages 3-5\",\r\n    \"minAgeMonths\": 36,\r\n    \"maxAgeMonths\": 96\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -89,16 +180,107 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Program",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{app host}}/programs",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"programs"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "Child",
+			"name": "Class Room",
 			"item": [
 				{
-					"name": "Enroll",
-					"item": []
+					"name": "Create class room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Rainbow Room\",\r\n  \"capacity\": 20,\r\n  \"program\": {\r\n    \"id\": 1\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{app host}}/classrooms",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"classrooms"
+							]
+						}
+					},
+					"response": []
 				},
+				{
+					"name": "Get class room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{app host}}/classrooms",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"classrooms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Enroll",
+			"item": [
 				{
 					"name": "Enroll",
 					"request": {
@@ -115,24 +297,82 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{app host}}/programs/3/enroll?childId=1&classRoomId=7",
+							"raw": "{{app host}}/children/1/enroll?programId=1&classRoomId=1",
 							"host": [
 								"{{app host}}"
 							],
 							"path": [
-								"programs",
-								"3",
+								"children",
+								"1",
 								"enroll"
 							],
 							"query": [
 								{
-									"key": "childId",
+									"key": "programId",
 									"value": "1"
 								},
 								{
 									"key": "classRoomId",
-									"value": "7"
+									"value": "1"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{app host}}/children/1/withdraw",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"children",
+								"1",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{app host}}/children/1/enrollments",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"children",
+								"1",
+								"enrollments"
 							]
 						}
 					},
@@ -141,87 +381,142 @@
 			]
 		},
 		{
-			"name": "Hello",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{access_token}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{app host}}/hello",
-					"host": [
-						"{{app host}}"
-					],
-					"path": [
-						"hello"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get token admin",
-			"event": [
+			"name": "login",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"// Parse JSON response\r",
-							"let json = pm.response.json();\r",
-							"\r",
-							"// Save access_token as environment variable\r",
-							"if (json.access_token) {\r",
-							"    pm.environment.set(\"access_token\", json.access_token);\r",
-							"    console.log(\"Access token saved to environment\");\r",
-							"} else {\r",
-							"    console.warn(\"No access_token found in response\");\r",
-							"}\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{app host}}/auth/login?username=alice&password=alice123",
-					"host": [
-						"{{app host}}"
-					],
-					"path": [
-						"auth",
-						"login"
-					],
-					"query": [
+					"name": "get token admin",
+					"event": [
 						{
-							"key": "username",
-							"value": "alice"
-						},
-						{
-							"key": "password",
-							"value": "alice123"
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse JSON response\r",
+									"let json = pm.response.json();\r",
+									"\r",
+									"// Save access_token as environment variable\r",
+									"if (json.access_token) {\r",
+									"    pm.environment.set(\"access_token\", json.access_token);\r",
+									"    console.log(\"Access token saved to environment\");\r",
+									"} else {\r",
+									"    console.warn(\"No access_token found in response\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{app host}}/auth/login?username=alice&password=alice123",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "alice"
+								},
+								{
+									"key": "password",
+									"value": "alice123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get token caregiver",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse JSON response\r",
+									"let json = pm.response.json();\r",
+									"\r",
+									"// Save access_token as environment variable\r",
+									"if (json.access_token) {\r",
+									"    pm.environment.set(\"access_token\", json.access_token);\r",
+									"    console.log(\"Access token saved to environment\");\r",
+									"} else {\r",
+									"    console.warn(\"No access_token found in response\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{app host}}/auth/login?username=bob&password=bob123",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "bob"
+								},
+								{
+									"key": "password",
+									"value": "bob123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hello",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{app host}}/hello",
+							"host": [
+								"{{app host}}"
+							],
+							"path": [
+								"hello"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [
@@ -249,11 +544,11 @@
 	"variable": [
 		{
 			"key": "app host",
-			"value": ""
+			"value": "http://localhost:8081"
 		},
 		{
 			"key": "keycloak host",
-			"value": ""
+			"value": "http://localhost:8080"
 		}
 	]
 }
