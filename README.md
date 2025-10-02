@@ -138,9 +138,6 @@ docker-compose up -d
 ```bash
 # Stop all services (keeps containers and data)
 docker-compose stop
-
-# Stop services started in detached mode
-docker-compose stop
 ```
 
 ### Recompiling and Redeploying (Development Workflow)
@@ -149,13 +146,13 @@ When you make code changes and need to redeploy only the application:
 
 ```bash
 # 1. Stop only the application container (keep DB and Keycloak running)
-docker stop wiradaycare-app
+docker stop wiradaycare-backend
 
 # 2. Rebuild the Maven project
 mvn clean compile install -DskipTests
 
 # 3. Rebuild and start the application container
-docker-compose up --build app
+docker-compose up --build backend
 ```
 
 **Alternative: Full restart with all services**
@@ -170,7 +167,7 @@ docker-compose up --build
 **Quick redeploy for app-only changes:**
 ```bash
 # One-liner for fast development cycle
-docker stop wiradaycare-app && mvn clean compile install -DskipTests && docker-compose up --build app
+docker stop wiradaycare-app && mvn clean compile install -DskipTests && docker-compose up --build backend
 ```
 
 ### Complete Removal (Use with caution)
@@ -186,7 +183,7 @@ docker-compose down -v
 
 ### Common Issues:
 
-1. **Port conflicts**: If ports 8080, 8081, or 5432 are in use, modify the port mappings in `docker-compose.yml`
+1. **Port conflicts**: If ports 8080, 8081, 3000, or 5432 are in use, modify the port mappings in `docker-compose.yml`
 
 2. **Docker build fails**: Ensure you've run `mvn clean compile install -DskipTests` before `docker-compose up --build`
 
