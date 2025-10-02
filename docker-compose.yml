@@ -32,11 +32,13 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
     container_name: wiradaycare-keycloak
-    command: start-dev --import-realm
+    command: start-dev --import-realm --http-relative-path=/keycloak
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_HEALTH_ENABLED: true
+      KC_HOSTNAME: domba.local
+      KC_PROXY: edge
     ports:
       - "8080:8080"
     volumes:
@@ -76,14 +78,18 @@ services:
       - wiradaycare-net
     
   proxy:
-    image: httpd:2.4
+    image: nginx:alpine
     container_name: wiradaycare-proxy
     ports:
       - "80:80"
     volumes:
-      - ./apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - wiradaycare-net
+    depends_on:
+      - backend
+      - frontend
+      - keycloak
 
 volumes:
   db_data:
