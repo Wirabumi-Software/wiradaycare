@@ -10,6 +10,11 @@ services:
       - db_data:/var/lib/postgresql/data
     networks:
       - wiradaycare-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wiradaycare -d wiradaycare"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # pgadmin:
   #   image: dpage/pgadmin4
@@ -37,19 +42,31 @@ services:
       - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     networks:
       - wiradaycare-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
 
-  app:
+  backend:
     build: .
-    container_name: wiradaycare-app
+    container_name: wiradaycare-backend
     environment:
       SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8081:8080"
     depends_on:
-      - db
-      - keycloak
+      db:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
     networks:
       - wiradaycare-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
 
   frontend:
     build: ./frontend
@@ -62,7 +79,23 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
-      - app
+      backend:
+        condition: service_healthy
+    networks:
+      - wiradaycare-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+  
+  proxy:
+    image: httpd:2.4
+    container_name: wiradaycare-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
     networks:
       - wiradaycare-net
 
@@ -71,3 +104,4 @@ volumes:
 
 networks:
   wiradaycare-net:
+    driver: bridge
